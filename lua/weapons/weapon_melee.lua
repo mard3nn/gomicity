@@ -1197,7 +1197,7 @@ function SWEP:CustomThink()
                         self.animspeed = self.animspeed * mul
                     end)
 
-                    util.ScreenShake(self:GetPos(), 35, 1, 1, 100)
+                    //util.ScreenShake(self:GetPos(), 35, 1, 1, 100)
 
                     self.stopanim = 0.2
 					self.reverseanim = true
@@ -1219,7 +1219,7 @@ function SWEP:CustomThink()
                         self.animspeed = self.animspeed * mul
                     end)
 
-                    util.ScreenShake(self:GetPos(), 35, 1, 1, 100)
+                    util.ScreenShake(self:GetPos(), 15, 1, 1, 100)
 
                     self.stopanim = 0.2
 					--self.reverseanim = true

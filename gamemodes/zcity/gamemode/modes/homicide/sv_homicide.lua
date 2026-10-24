@@ -14,7 +14,7 @@ MODE.OverrideSpawn = true
 MODE.LootSpawn = true
 MODE.LootOnTime = true
 
-MODE.Chance = 0.2 -- this is mostly unused
+MODE.Chance = 0.3 -- this is mostly unused
 MODE.LootDivTime = 500
 
 function MODE:SetupChances()

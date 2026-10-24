@@ -89,25 +89,24 @@ local splasheh = {
     'ALSO TRY MODDED HOMICIDE 2',
     'HOP ON Z-CITY',
     'JOHN Z-CITY',
-    ':pluvrare:',
+    'бля какой ты ебень',
     'SAW51 IS REAL',
     'MORE SMALLTOWN',
     'MORE CLUE2022',
     'BACKROOMS == CLUE',
     'HELL IS NEAR',
-    'I WISH YOU GOOD HEALTH, JASON STATHAM'
+    'ZETA'  
 }
 
---print(string.upper('I wish you good health, Jason Statham'))
 surface.CreateFont("ZC_MM_Title", {
     font = "Bahnschrift",
     size = ScreenScale(40),
     weight = 800,
     antialias = true
 })
--- local Title = markup.Parse("error")
 
 local Pluv = Material("pluv/pluvkid.jpg")
+local GomiCityMat = Material("zcity/gomicity.png")
 
 function PANEL:InitializeMarkup()
 	local mapname = game.GetMap()
@@ -118,14 +117,12 @@ function PANEL:InitializeMarkup()
 	local gm = splasheh[math.random(#splasheh)] .. " | " .. string.NiceName(mapname) 
 
     if hg.PluvTown.Active then
-        local text = "<font=ZC_MM_Title><colour=199,2,2>    </colour>City</font>\n<font=ZCity_Tiny><colour=105,105,105>" .. gm .. "</colour></font>"
-
+        local text = "<font=ZCity_Tiny><colour=105,105,105>" .. gm .. "</colour></font>"
         self.SelectedPluv = table.Random(hg.PluvTown.PluvMats)
-
         return markup.Parse(text)
     end
 
-    local text = "<font=ZC_MM_Title><colour=199,2,2,255>Z</colour>-City</font>\n<font=ZCity_Tiny><colour=105,105,105>" .. gm .. "</colour></font>"
+    local text = "<font=ZCity_Tiny><colour=105,105,105>" .. gm .. "</colour></font>"
     return markup.Parse(text)
 end
 
@@ -156,15 +153,19 @@ function PANEL:Init()
     local lDock = self.lDock
     lDock:Dock(LEFT)
     lDock:SetSize(ScrW() / 4, ScrH())
-    lDock:DockMargin(ScreenScale(0), ScreenScaleH(90), ScreenScale(10), ScreenScaleH(90))
+    lDock:DockMargin(ScreenScale(0), ScreenScaleH(65), ScreenScale(10), ScreenScaleH(90))
     lDock.Paint = function(this, w, h)
         if hg.PluvTown.Active then
             surface.SetDrawColor(color_white)
             surface.SetMaterial(self.SelectedPluv or Pluv)
-            surface.DrawTexturedRect(0, ScreenScale(27), ScreenScale(35), ScreenScale(27))
+            surface.DrawTexturedRect(0, ScreenScale(17), ScreenScale(35), ScreenScale(27))
         end
 
-        self.Title:Draw(ScreenScale(15), ScreenScale(50), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 255, TEXT_ALIGN_LEFT)
+        surface.SetDrawColor(color_white)
+        surface.SetMaterial(GomiCityMat)
+        surface.DrawTexturedRect(ScreenScale(10), ScreenScale(50), ScreenScale(120), ScreenScale(40))
+
+        self.Title:Draw(ScreenScale(15), ScreenScale(95), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 255, TEXT_ALIGN_LEFT)
     end
 
     self.Buttons = {}
@@ -224,7 +225,8 @@ local gradient_d = surface.GetTextureID("vgui/gradient-d")
 local gradient_r = surface.GetTextureID("vgui/gradient-u")
 local gradient_l = surface.GetTextureID("vgui/gradient-l")
 
-local clr_1 = Color(102,0,0,35)
+local clr_1 = Color(0, 120, 200, 25)
+
 function PANEL:Paint(w,h)
     draw.RoundedBox( 0, 0, 0, w, h, self.ColorBG )
     hg.DrawBlur(self, 5)
@@ -253,7 +255,6 @@ function PANEL:AddSelect( pParent, strTitle, tbl )
     if tbl.CreatedFunc then tbl.CreatedFunc(btn, self, luaMenu) end
     btn.RColor = Color(225,225,225)
     function btn:DoClick()
-        -- ,kz оптимизировать надо, но идёт ошибка(кэшировать бы luaMenu.panelparrent вместо вызова его каждый раз)
         if curent_panel == string.lower(strTitle) then
 			for i = 1, 3 do
 				surface.PlaySound("shitty/tap_release.wav")
@@ -266,7 +267,6 @@ function PANEL:AddSelect( pParent, strTitle, tbl )
                 luaMenu.panelparrent:SetPos(some_coordinates_x, 0)
                 luaMenu.panelparrent:SetSize(some_size_x, some_size_y)
                 luaMenu.panelparrent.Paint = function(this, w, h) end
-                --btn.Func(luaMenu,luaMenu.panelparrent)
                 curent_panel = nil
             end)
             return 
