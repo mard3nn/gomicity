@@ -250,7 +250,7 @@ if CLIENT then
 		end
 	end
 
-	local zmeyka = GetConVar("zmeyka") or CreateClientConVar("zmeyka",1,true,false,"Toggle snake/worm that appears in emote menu",0,1)
+	local zmeyka = GetConVar("zmeyka") or CreateClientConVar("zmeyka",0,true,false,"Toggle snake/worm that appears in emote menu",0,1)
 
 	local funcs = {
 		[1] = function(float) return math.ease.OutCirc(float) end,

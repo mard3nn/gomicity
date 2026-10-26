@@ -100,11 +100,11 @@ function SWEP:PrimarySpread()
 			
 			local huyang = angrand2 * mul / 2 * mulhuy
 			huyang[3] = 0
-			ViewPunch2(huyang * (owner.posture == 1 and not self:IsZoom() and 3 or 1) * 2.5)-- ^ ((not self.Primary.Automatic and 0.5 or 1)))
+			ViewPunch2(huyang * (owner.posture == 1 and not self:IsZoom() and 3 or 1))
 			
 			local angpopa = angrand2 * mul
 			angpopa[3] = 0
-			ViewPunch(angpopa * (hg_coolcamera:GetBool() and 3 or 1))-- ^ ((not self.Primary.Automatic and 0.5 or 1)))
+			ViewPunch(angpopa * (hg_coolcamera:GetBool() and 4 or 1))
 			spray = spray + angRand * 2 * (self.randmul or 1)
 		end
 

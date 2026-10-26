@@ -175,18 +175,20 @@ function hg.DropArmor(ply, equipment)
         placement = tbl[equipment] and tbl[equipment][1] or placement
     end
     
-    if hg.armor[placement][equipment].nodrop then return false end
-
     if not placement then
         print("sh_equipment.lua: no such equipment as: " .. equipment)
         return false
     end
 
+    if hg.armor[placement][equipment].nodrop then return false end
+
     if IsValid(ply) and ply.DropCD and ply.DropCD > CurTime() then return false end
 
     if hg.armor[placement][equipment] then
-        ply:DoAnimationEvent((placement == "head" or placement == "ears" or placement == "face") and ACT_GMOD_GESTURE_MELEE_SHOVE_1HAND or ACT_GMOD_GESTURE_MELEE_SHOVE_2HAND)
-	    ply:ViewPunch(Angle(1,-2,1))
+        if ply:IsPlayer() then
+            ply:DoAnimationEvent((placement == "head" or placement == "ears" or placement == "face") and ACT_GMOD_GESTURE_MELEE_SHOVE_1HAND or ACT_GMOD_GESTURE_MELEE_SHOVE_2HAND)
+            ply:ViewPunch(Angle(1,-2,1))
+        end
         ply.DropCD = CurTime() + 0.35
         --timer.Simple(0.3,function()
         if not IsValid(ply) then return end
