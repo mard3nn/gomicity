@@ -59,6 +59,12 @@ if CLIENT then
 		local text = net.ReadString()
 		local bWhisper = net.ReadBool()
 
+		-- speaker can be NULL if they left the server before this arrived
+		if !IsValid(speaker) then
+			chat.AddText("[Unknown]: ", text)
+			return
+		end
+
 		speaker.ChatWhisper = bWhisper
 
 		CHAT_SPEAKER = speaker

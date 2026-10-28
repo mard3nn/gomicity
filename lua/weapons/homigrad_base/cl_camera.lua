@@ -315,6 +315,7 @@ function SWEP:Camera(eyePos, eyeAng, view, vellen, ply)
 
 	outputAng:Add(-eyeSpray * 10)
 	
+	
 	outputPos:Add(-(angle_difference_localvec * 30 * (-k + 2) * 2) / (self.Ergonomics or 1) + position_difference23 * 0.25 * (-k + 1.25))
 	outputPos:Add(spray * 1.1)
 	

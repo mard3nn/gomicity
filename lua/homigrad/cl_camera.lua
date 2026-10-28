@@ -49,6 +49,7 @@ local curTime = CurTime()
 local curTime2 = CurTime()
 local angfuk23 = Angle(0,0,0)
 local vecdiff = Vector(0, 0, 0)
+angle_difference_wep = Vector(0, 0, 0)
 angle_difference_localvec = Vector(0, 0, 0)
 angle_difference_localvec2 = Vector(0, 0, 0)
 angle_difference = Angle(0, 0, 0)
@@ -311,7 +312,7 @@ function GoProCam(ply, vec, ang, fov, znear, zfar)
 	return view
 end
 
-local hg_coolcamera = ConVarExists("hg_coolcamera") and GetConVar("hg_coolcamera") or CreateConVar("hg_coolcamera", 0, FCVAR_ARCHIVE + FCVAR_REPLICATED, "Cool camera movement", 0, 5)
+local hg_coolcamera = ConVarExists("hg_coolcamera") and GetConVar("hg_coolcamera") or CreateConVar("hg_coolcamera", 1, FCVAR_ARCHIVE + FCVAR_REPLICATED, "Cool camera movement", 0, 5)
 
 CalcView = function(ply, origin, angles, fov, znear, zfar)
 	if g_VR and g_VR.active then return end
@@ -523,7 +524,7 @@ CalcView = function(ply, origin, angles, fov, znear, zfar)
 	view.origin, view.angles = HGAddView(ply, view.origin, view.angles, velLen)
 	--end
 	
-	realangle = realangle or lply:EyeAngles()
+    realangle = realangle or lply:EyeAngles()
 
 	if GetCoolCameraBool() then
 		view.angles = realangle + GetViewPunchAngles() * 0.4 + vpang
@@ -606,6 +607,7 @@ function hg.cam_things(ply, view, angles)
 	local fthuy = ftlerped * 150 * game.GetTimeScale()--hg.FrameTimeClamped() * 300
 	fthuy = math.max(0.0001, fthuy) -- WHAT IF...
 	
+	angle_difference_wep = LerpVectorFT(0.03, angle_difference_wep, -different / fthuy)
 	angle_difference_localvec = LerpVectorFT(0.08, angle_difference_localvec, -different / (fthuy))
 	angle_difference_localvec2 = LerpVectorFT(0.08, angle_difference_localvec2, -different2 / (fthuy))
 	angle_difference = LerpAngleFT(0.08, angle_difference, localAng * 2 / (fthuy))
@@ -623,6 +625,7 @@ function hg.cam_things(ply, view, angles)
 	position_difference3[3] = 0
 	position_difference3[2] = position_difference:Dot(eyeAngs:Right())-- * (fthuy)
 	
+	hg.clamp(angle_difference_wep, 10)
 	hg.clamp(position_difference, 2)
 	hg.clamp(position_difference3, 5)
 	hg.clamp(angle_difference_localvec, 10)
